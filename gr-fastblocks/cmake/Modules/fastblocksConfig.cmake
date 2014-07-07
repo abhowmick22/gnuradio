@@ -1,0 +1,30 @@
+INCLUDE(FindPkgConfig)
+PKG_CHECK_MODULES(PC_FASTBLOCKS fastblocks)
+
+FIND_PATH(
+    FASTBLOCKS_INCLUDE_DIRS
+    NAMES fastblocks/api.h
+    HINTS $ENV{FASTBLOCKS_DIR}/include
+        ${PC_FASTBLOCKS_INCLUDEDIR}
+    PATHS ${CMAKE_INSTALL_PREFIX}/include
+          /usr/local/include
+          /usr/include
+)
+
+FIND_LIBRARY(
+    FASTBLOCKS_LIBRARIES
+    NAMES gnuradio-fastblocks
+    HINTS $ENV{FASTBLOCKS_DIR}/lib
+        ${PC_FASTBLOCKS_LIBDIR}
+    PATHS ${CMAKE_INSTALL_PREFIX}/lib
+          ${CMAKE_INSTALL_PREFIX}/lib64
+          /usr/local/lib
+          /usr/local/lib64
+          /usr/lib
+          /usr/lib64
+)
+
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(FASTBLOCKS DEFAULT_MSG FASTBLOCKS_LIBRARIES FASTBLOCKS_INCLUDE_DIRS)
+MARK_AS_ADVANCED(FASTBLOCKS_LIBRARIES FASTBLOCKS_INCLUDE_DIRS)
+
