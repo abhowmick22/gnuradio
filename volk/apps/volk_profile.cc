@@ -111,6 +111,7 @@ int main(int argc, char *argv[]) {
     VOLK_PROFILE(volk_32f_convert_64f, 1e-4, 0, 204602, 10000, &results, benchmark_mode, kernel_regex);
     VOLK_PROFILE(volk_32f_s32f_convert_8i, 1, 128, 204602, 10000, &results, benchmark_mode, kernel_regex);
     //VOLK_PROFILE(volk_32fc_s32f_x2_power_spectral_density_32f, 1e-4, 2046, 10000, &results, benchmark_mode, kernel_regex);
+    VOLK_PROFILE(volk_32fc_x2_s32u_ofdm_metric_32f, 1e-1, 32, 20462, 100, &results, benchmark_mode, kernel_regex);
     VOLK_PROFILE(volk_32fc_s32f_power_spectrum_32f, 1e-4, 0, 20462, 100, &results, benchmark_mode, kernel_regex);
     VOLK_PROFILE(volk_32fc_x2_square_dist_32f, 1e-4, 0, 204602, 10000, &results, benchmark_mode, kernel_regex);
     VOLK_PROFILE(volk_32fc_x2_s32f_square_dist_scalar_mult_32f, 1e-4, 10, 204602, 10000, &results, benchmark_mode, kernel_regex);

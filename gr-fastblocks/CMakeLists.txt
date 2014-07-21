@@ -83,7 +83,11 @@ set(GRC_BLOCKS_DIR      ${GR_PKG_DATA_DIR}/grc/blocks)
 ########################################################################
 # Find gnuradio build dependencies
 ########################################################################
+set(GR_REQUIRED_COMPONENTS RUNTIME VOLK)
+
 find_package(CppUnit)
+#find_package(Volk REQUIRED)
+find_package(Doxygen)
 
 # Search for GNU Radio and its components and versions. Add any
 # components required to the list of GR_REQUIRED_COMPONENTS (in all
@@ -96,6 +100,20 @@ if(NOT CPPUNIT_FOUND)
     message(FATAL_ERROR "CppUnit required to compile fastblocks")
 endif()
 
+#if(NOT VOLK_FOUND)
+#	message(FATAL_ERROR "Volk required to compile fastblocks")
+#endif()
+
+########################################################################
+# Setup doxygen option
+########################################################################
+if(DOXYGEN_FOUND)
+	option(ENABLE_DOXYGEN "Build docs using Doxygen" ON)
+else(DOXYGEN_FOUND)
+	option(ENABLE_DOXYGEN "Build docs using Doxygen" OFF)
+endif(DOXYGEN_FOUND)
+
+
 ########################################################################
 # Setup the include and linker paths
 ########################################################################
@@ -106,6 +124,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}/include
     ${Boost_INCLUDE_DIRS}
     ${CPPUNIT_INCLUDE_DIRS}
+	#${GNURADIO_RUNTIME_INCLUDE_DIRS}
     ${GNURADIO_ALL_INCLUDE_DIRS}
 )
 
@@ -130,48 +149,6 @@ configure_file(
 add_custom_target(uninstall
     ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
 )
-
-########################################################################
-# Setup volk as a subproject
-########################################################################
-#include(GrComponent)
-#GR_REGISTER_COMPONENT("gr-fastblocks" ENABLE_FASTBLOCKS
-#    Boost_FOUND
-#    ENABLE_VOLK
-#    ENABLE_GNURADIO_RUNTIME
-#    ENABLE_GR_FFT
-#    ENABLE_GR_FILTER
-#    ENABLE_GR_BLOCKS
-#    ENABLE_GR_ANALOG
-#    ENABLE_GR_BLOCKS
-#    ENABLE_GR_FILTER
-#)
-
-#set(VOLK_INCLUDE_DIRS
-#    ${CMAKE_CURRENT_SOURCE_DIR}/volk/include
-#    ${CMAKE_CURRENT_BINARY_DIR}/volk/include
-#)
-#
-#if(ENABLE_VOLK)
-#
-#include(GrPackage)
-#CPACK_SET(CPACK_COMPONENT_GROUP_VOLK_DESCRIPTION "Vector optimized library of kernels")
-#
-#CPACK_COMPONENT("volk_runtime"
-#    GROUP        "Volk"
-#    DISPLAY_NAME "Runtime"
-#    DESCRIPTION  "Dynamic link libraries"
-#)
-#
-#CPACK_COMPONENT("volk_devel"
-#    GROUP        "Volk"
-#    DISPLAY_NAME "Development"
-#    DESCRIPTION  "C++ headers, package config, import libraries"
-#)
-#
-#
-#add_subdirectory(volk)
-#endif(ENABLE_VOLK)
 
 ########################################################################
 # Add subdirectories

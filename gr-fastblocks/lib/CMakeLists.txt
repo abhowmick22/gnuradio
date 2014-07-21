@@ -22,7 +22,13 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 
-include_directories(${Boost_INCLUDE_DIR})
+include_directories(${Boost_INCLUDE_DIR}
+					${CMAKE_CURRENT_BINARY_DIR}/../include
+					${GR_INCLUDE_DIR}
+					/home/abhishek/gnuradio/volk/include
+					/home/abhishek/gnuradio/build/volk/include
+)
+
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND fastblocks_sources
@@ -36,8 +42,11 @@ if(NOT fastblocks_sources)
 endif(NOT fastblocks_sources)
 
 add_library(gnuradio-fastblocks SHARED ${fastblocks_sources})
-target_link_libraries(gnuradio-fastblocks ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
+target_link_libraries(gnuradio-fastblocks ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} /home/abhishek/gnuradio/build/volk/lib/libvolk.so)
 set_target_properties(gnuradio-fastblocks PROPERTIES DEFINE_SYMBOL "gnuradio_fastblocks_EXPORTS")
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O3 -funroll-loops -msse2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -funroll-loops -msse2")
 
 if(APPLE)
     set_target_properties(gnuradio-fastblocks PROPERTIES
@@ -73,7 +82,9 @@ target_link_libraries(
   ${GNURADIO_RUNTIME_LIBRARIES}
   ${Boost_LIBRARIES}
   ${CPPUNIT_LIBRARIES}
+  ${GNURADIO_ALL_LIBRARIES}
   gnuradio-fastblocks
+  /home/abhishek/gnuradio/build/volk/lib/libvolk.so
 )
 
 GR_ADD_TEST(test_fastblocks test-fastblocks)

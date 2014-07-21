@@ -65,11 +65,11 @@ class qa_ofdm_metric (gr_unittest.TestCase):
         self.tb.run ()
         sig1_detect = sink_detect.data()[0:len(tx_signal)/2]
         sig2_detect = sink_detect.data()[len(tx_signal)/2:]
-        #self.assertTrue(abs(sig1_detect.index(1) - (n_zeros + fft_len + cp_len)) < cp_len)
-        #self.assertTrue(abs(sig2_detect.index(1) - (n_zeros + fft_len + cp_len)) < cp_len)
-        #self.assertEqual(numpy.sum(sig1_detect), 1)
-        #self.assertEqual(numpy.sum(sig2_detect), 1)
-        self.assertEqual(1,1)
+        self.assertTrue(abs(sig1_detect.index(1) - (n_zeros + fft_len + cp_len)) < cp_len)
+        self.assertTrue(abs(sig2_detect.index(1) - (n_zeros + fft_len + cp_len)) < cp_len)
+        self.assertEqual(numpy.sum(sig1_detect), 1)
+        self.assertEqual(numpy.sum(sig2_detect), 1)
+        #self.assertEqual(1,1)
 
 
 

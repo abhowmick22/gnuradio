@@ -45,11 +45,15 @@ class qa_ofdm_sync_sc_cfb (gr_unittest.TestCase):
         cp_len = 4
         sig_len = (fft_len + cp_len) * 10
         sync_symbol = [(random.randint(0, 1)*2)-1 for x in range(fft_len/2)] * 2
+	print sync_symbol
+	print "ss"
         tx_signal = [0,] * n_zeros + \
                     sync_symbol[-cp_len:] + \
                     sync_symbol + \
                     [(random.randint(0, 1)*2)-1 for x in range(sig_len)]
         tx_signal = tx_signal * 2
+	print tx_signal
+	print "a"
         add = blocks.add_cc()
         sync = digital.ofdm_sync_sc_cfb(fft_len, cp_len)
         sink_freq   = blocks.vector_sink_f()
@@ -61,7 +65,13 @@ class qa_ofdm_sync_sc_cfb (gr_unittest.TestCase):
         self.tb.connect((sync, 1), sink_detect)
         self.tb.run()
         sig1_detect = sink_detect.data()[0:len(tx_signal)/2]
+	sig1_freq = sink_freq.data()[0:len(tx_signal)/2]
+	#print sig1_freq
+	#print sig1_freq[sig1_detect.index(1) - 3: sig1_detect.index(1) + 3]
         sig2_detect = sink_detect.data()[len(tx_signal)/2:]
+	sig2_freq = sink_freq.data()[0:len(tx_signal)/2]
+	#print sig2_freq
+	#print sig2_freq[sig2_detect.index(1) - 3: sig2_detect.index(1) + 3]
         self.assertTrue(abs(sig1_detect.index(1) - (n_zeros + fft_len + cp_len)) < cp_len)
         self.assertTrue(abs(sig2_detect.index(1) - (n_zeros + fft_len + cp_len)) < cp_len)
         self.assertEqual(numpy.sum(sig1_detect), 1)

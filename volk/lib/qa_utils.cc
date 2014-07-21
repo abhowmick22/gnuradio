@@ -15,6 +15,7 @@
 #include <volk/volk_cpu.h>
 #include <volk/volk_common.h>
 #include <volk/volk_malloc.h>
+#include <volk/volk_circularBuffer.h>
 #include <boost/typeof/typeof.hpp>
 #include <boost/type_traits.hpp>
 #include <stdio.h>

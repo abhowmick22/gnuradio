@@ -83,10 +83,14 @@ namespace gr {
         const gr_complex *in2 = (const gr_complex *) input_items[1];
         float *out = (float *) output_items[0];
 		unsigned int noi = noutput_items;
+
+		const char* volk_impl_name = "volk_32fc_x2_s32u_ofdm_metric_32f_a";
 		
         // Do <+signal processing+>
 		
-		volk_32fc_x2_s32u_ofdm_metric_32f(out, in1, in2, d_fft_len, noi);
+		//volk_32fc_x2_s32u_ofdm_metric_32f_manual(out, in1, in2, d_fft_len, noi, volk_impl_name);
+		volk_32fc_x2_s32u_ofdm_metric_32f_a(out, in1, in2, d_fft_len, noi);
+		//volk_32fc_magnitude_32f(out, in1, noi);
         // Tell runtime system how many input items we consumed on
         // each input stream.
         consume_each (noutput_items);

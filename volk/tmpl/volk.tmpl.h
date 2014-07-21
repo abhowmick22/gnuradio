@@ -27,6 +27,7 @@
 #include <volk/volk_common.h>
 #include <volk/volk_complex.h>
 #include <volk/volk_malloc.h>
+#include <volk/volk_circularBuffer.h>
 
 #include <stdlib.h>
 #include <stdbool.h>
